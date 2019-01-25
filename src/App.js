@@ -12,48 +12,44 @@ class App extends Component {
     super(props
       )
       this.state= {
-        inventory:[
-          { id:1,
-            name: 'soccerball',
-            price: 22,
-            image: ""
-
-        },
-        {
-          id:2,
-          name: 'basketball',
-          price: 20,
-          image:""
-        }
-      ]
+        inventory:[]
+        
   }
   console.log(this.state.inventory)
 }
 
 handleGetInventory() {
-  axios.get('/api/inventory')
+  axios.get('http://localhost:4000/api/inventory')
       .then(response => {
+        console.log(response)
           
           this.setState({
-              inventory: response.data
+              inventory:response.data
+              
           })
+          console.log(this.state.inventory)
       })
   }
   
   render() {
-
- 
-
+    const products = this.state.inventory.map((product) => 
+    
+        <div>
+        <h4>{product.name}</h4>
+        <h5>{product.price}</h5>
+        <p>{product.image}</p>
+        
+        </div>) 
+      console.log(products)
     return (
       <div className="App">
-        <button
-              onClick={() => this.handleGetInventory()}
-              
-            >get inventory</button>
+        <button onClick={() => this.handleGetInventory()}> get Inventory</button>
+        <h1>{products}</h1>
        <Dashboard />
        <Form />
        <Header />
        <Product />
+       {products}
       </div>
     );
   }

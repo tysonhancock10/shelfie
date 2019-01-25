@@ -11,5 +11,6 @@ massive(process.env.CONNECTION_STRING).then(dbInstance => {
   }).catch(err => console.log(err));
 
   app.get('/api/inventory', ctrl.getInventory)
+  app.post('/api/inventory', ctrl.addInventory)
 
 app.listen(4000, () => console.log( `we are at port 4000 now.` ))
