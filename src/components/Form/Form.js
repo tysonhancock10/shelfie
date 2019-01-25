@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
-
+import axios from 'axios'
 
 
 class Form extends Component{
     constructor(){
         super()
         this.state= {
-            nameInput:'',
-            priceInput:0,
-            imageInput:'',
+            inventory:[],
+            name:'',
+            price:0,
+            image:'',
             
         }
     }
@@ -40,10 +41,24 @@ class Form extends Component{
         imageInput: ''
     })
     }
+    handleAddInventory(){
+        const bodyObj = {
+          product_name: this.state.name, 
+          product_price: this.state.price,
+          product_img: this.state.image
+        }
+        axios.post('http://localhost:4000/api/inventory', bodyObj)
+        .then(response => { 
+          this.setState({
+            inventory: response.data
+          })
+        })
+      }
   
     
 
     render(){
+        
         // let DisplayInventory = this.props.getInventory().map(() => {
         // return ()
         // }
@@ -62,11 +77,10 @@ class Form extends Component{
                 <input onChange={(e) =>{
                     this.handlePriceInput(e.target.value)
                 }}></input>
-                <input onChange={(e) => {
-                    this.handleClear(e.target.value)
-                }}></input>
+                
                 <button onClick={() => {this.handleClear()}}>cancel</button>
-                <button >Add inventory</button>
+                <button onClick={() => {this.handleAddInventory()}} >Add inventory</button>
+            
             </div>
         )
     }
